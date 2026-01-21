@@ -21,7 +21,7 @@ jobs:
      python -m pip install --upgrade pip
      pip install -r requirements.txt
   - name: Run app test
-    run: python-c "import app; print('App testSuccessfull')"
+    run: python -c "import app; print('App testSuccessfull')"
   - name: Log in to Docker Hub
     uses: docker/login-action@v3
     with:
