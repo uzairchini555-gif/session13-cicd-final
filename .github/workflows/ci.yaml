@@ -3,7 +3,7 @@ on:
  push:
   branches: [ main ]
 env:
- DOCKER_IMAGE ${{ secrets.DOCKERHUB_USER }}/sesion13-app
+ DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USER }}/sesion13-app
  KUBE_NAMESPACE: session13
 jobs: 
  build-and-push: 
