@@ -10,7 +10,7 @@ jobs:
   name: Build & Push Docker Image
   runs-on: ubuntu-latest
   steps: 
-  - name: Checkuot code
+  - name: Checkout code
     uses: actions/checkout@v4
   - name: Set up Python
     uses: actions/setup-python@v5
@@ -31,20 +31,20 @@ jobs:
     run: |
      docker build -t $DOCKER_IMAGE:latest .
      docker push $DOCKER_IMAGE:latest
-depoly-to-k8s:
- name: Deploy to Kubernetes
- needs: build-and-push
- runs-on: ubuntu-latest
- steps:
- - name: Checkout code
-   uses: actions/checkout@v4
- - name: Set up Kubectl
-   uses: azure/setup-kubectl@v3
-   with:
-    version: 'v1.34.0'
- - name: Set Kubeconfig
-   run: echo "${{ secrets.KUBECONFIG_CONTENT }}" > $HOME/.kube/config
- - name: Deploy updated image 
-   run: |
-    kubectl set image deployment/session13-deployment \ session13-container=$DOCKER_IMAGE:latest -n $KUBE_NAMESPACE
-    kubectl rollout status deployment/session143-deployment-n $KUBE_NAMESPACE 
+ depoly-to-k8s:
+  name: Deploy to Kubernetes
+  needs: build-and-push
+  runs-on: ubuntu-latest
+  steps:
+  - name: Checkout code
+    uses: actions/checkout@v4
+  - name: Set up Kubectl
+    uses: azure/setup-kubectl@v3
+    with:
+     version: 'v1.34.0'
+  - name: Set Kubeconfig
+    run: echo "${{ secrets.KUBECONFIG_CONTENT }}" > $HOME/.kube/config
+  - name: Deploy updated image 
+    run: |
+     kubectl set image deployment/session13-deployment \ session13-container=$DOCKER_IMAGE:latest -n $KUBE_NAMESPACE
+     kubectl rollout status deployment/session143-deployment-n $KUBE_NAMESPACE 
